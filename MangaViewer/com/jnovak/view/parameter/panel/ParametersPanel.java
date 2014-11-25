@@ -132,31 +132,16 @@ public class ParametersPanel extends JPanel
 
 		gbc.insets = new Insets(10, 10, 0, 0);
 
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		parametersPanel.add(parametersMap.get(ParameterDesc.SOURCE_FOLDER).getLabel(), gbc);
+		for (int i = 0; i < ParameterDesc.values().length; ++i)
+		{
+			gbc.gridx = 0;
+			gbc.gridy = i;
+			parametersPanel.add(parametersMap.get(ParameterDesc.values()[i]).getLabel(), gbc);
 
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		parametersPanel.add(parametersMap.get(ParameterDesc.SOURCE_FOLDER).getTextArea(), gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		parametersPanel.add(parametersMap.get(ParameterDesc.CHAPTER_PATTERN).getLabel(), gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		parametersPanel.add(parametersMap.get(ParameterDesc.CHAPTER_PATTERN).getTextArea(), gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		parametersPanel.add(parametersMap.get(ParameterDesc.PAGE_PATTERN).getLabel(), gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		parametersPanel.add(parametersMap.get(ParameterDesc.PAGE_PATTERN).getTextArea(), gbc);
-		// parametersPanel.setBackground(Color.red);
-		// parametersPanel.setOpaque(true);
+			gbc.gridx = 1;
+			gbc.gridy = i;
+			parametersPanel.add(parametersMap.get(ParameterDesc.values()[i]).getTextArea(), gbc);
+		}
 
 		footerPanel.add(backButton);
 		footerPanel.add(saveButton);

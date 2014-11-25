@@ -6,6 +6,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.Observable;
 
+import jnovak.parameter.ParameterDesc;
+import jnovak.parameter.Parameters;
 import jnovak.view.listener.pagefs.PageFullScreenActions;
 
 import org.slf4j.Logger;
@@ -52,9 +54,11 @@ public class PageFullScreenKeyListenerImpl extends Observable implements KeyList
 	public void mouseWheelMoved(final MouseWheelEvent event)
 	{
 		final int steps = event.getWheelRotation();
-		final int amount = event.getScrollAmount() * 6;
+		final int amount = event.getUnitsToScroll()
+				* Integer.parseInt(Parameters.getInstance().getProperties()
+						.getProperty(ParameterDesc.MOUSE_WHEEL_SPEED.toString()));
 		setChanged();
-		if (steps > 0)
+		if (steps < 0)
 		{
 			PageFullScreenActions.SCROLL_UP.setAmount(amount);
 			notifyObservers(PageFullScreenActions.SCROLL_UP);

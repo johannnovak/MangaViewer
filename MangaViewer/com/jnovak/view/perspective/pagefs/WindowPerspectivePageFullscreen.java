@@ -3,6 +3,7 @@ package jnovak.view.perspective.pagefs;
 import java.util.Observable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -94,14 +95,58 @@ public class WindowPerspectivePageFullscreen extends WindowPerspective
 			case DEZOOM:
 				break;
 			case SCROLL_DOWN:
-				label.setLocation(label.getX(),
-						label.getY() + PageFullScreenActions.SCROLL_DOWN.getAmount());
+				moveUp();
 				break;
 			case SCROLL_UP:
-				label.setLocation(label.getX(),
-						label.getY() - PageFullScreenActions.SCROLL_UP.getAmount());
+				moveDown();
 				break;
 		}
+	}
+
+	private void moveUp()
+	{
+		LOGGER.debug("Scroll Down => move up");
+
+		if (allowedToMoveUp())
+			label.setLocation(label.getX(),
+					label.getY() - PageFullScreenActions.SCROLL_DOWN.getAmount());
+		else
+			label.setLocation(
+					label.getX(),
+					((JFrame) SwingUtilities.getWindowAncestor(mainPanel)).getHeight()
+							- label.getHeight() - PageFullScreenActions.SCROLL_DOWN.getAmount());
+	}
+
+	private boolean allowedToMoveUp()
+	{
+		return (label.getY() + label.getHeight() - PageFullScreenActions.SCROLL_DOWN.getAmount() > ((JFrame) SwingUtilities
+				.getWindowAncestor(mainPanel)).getHeight() ? true : false);
+	}
+
+	private void moveDown()
+	{
+		LOGGER.debug("Scroll up => move down");
+
+		if (allowedToMoveDown())
+			label.setLocation(label.getX(),
+					label.getY() - PageFullScreenActions.SCROLL_UP.getAmount());
+		else
+			label.setLocation(label.getX(), 0);
+	}
+
+	private boolean allowedToMoveDown()
+	{
+		return (label.getY() - PageFullScreenActions.SCROLL_UP.getAmount() < 0 ? true : false);
+	}
+
+	private boolean allowedToScrollRight()
+	{
+		return false;
+	}
+
+	private boolean allowedToScrollLeft()
+	{
+		return false;
 	}
 
 	private void updateFrame()
